@@ -68,12 +68,14 @@ npm run dev
 
 ```
 ### 🧩 Folder Structure
+```bash
 codera-platform/
 ├── frontend/        # Next.js / React client
 ├── backend/         # API (NestJS or Express)
 ├── docs/            # Documentation
 ├── .env.example
 └── README.md
+```
 ### 🥇 Gamification System (Preview)
 
 | Action                 | XP Earned |
