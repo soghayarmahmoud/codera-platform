@@ -1,65 +1,153 @@
-import Image from "next/image";
+// يجب أن يكون "use client" إذا كنت ستستخدم حالة الفلترة من الهيدر
+"use client";
+import React, { useState } from 'react';
+
+import Footer from "./components/Footer.jsx";
+import Header from "./components/header.jsx";
+import CourseCard from "./components/CourseCard.jsx";
+import ProgressSummary from "./components/ProgressSummary.jsx";
+
+// 1. بيانات الكورسات التجريبية (DUMMY DATA)
+// (في المستقبل ستأتي هذه البيانات من API)
+const DUMMY_COURSES = [
+  {
+    id: 1,
+    title: "HTML Fundamentals",
+    description: "Learn the basics of HTML and web structure",
+    icon: "📄",
+    gradientFrom: "from-orange-500",
+    gradientTo: "to-yellow-400",
+    points: 200,
+    level: "Beginner",
+    totalLessons: 12,
+    completedLessons: 12,
+    status: "completed",
+    tech: "HTML" // للفلترة
+  },
+  {
+    id: 2,
+    title: "CSS Styling",
+    description: "Master CSS for beautiful web designs",
+    icon: "🎨",
+    gradientFrom: "from-blue-500",
+    gradientTo: "to-cyan-400",
+    points: 250,
+    level: "Beginner",
+    totalLessons: 15,
+    completedLessons: 8,
+    status: "in-progress",
+    tech: "CSS"
+  },
+  {
+    id: 3,
+    title: "JavaScript Basics",
+    description: "Introduction to JavaScript programming",
+    icon: "⚡",
+    gradientFrom: "from-yellow-500",
+    gradientTo: "to-orange-400",
+    points: 300,
+    level: "Beginner",
+    totalLessons: 20,
+    completedLessons: 5,
+    status: "in-progress",
+    tech: "JavaScript"
+  },
+  {
+    id: 4,
+    title: "React Framework",
+    description: "Build modern web apps with React",
+    icon: "⚛️",
+    gradientFrom: "from-blue-600",
+    gradientTo: "to-purple-500",
+    points: 500,
+    level: "Intermediate",
+    totalLessons: 25,
+    completedLessons: 0,
+    status: "not-started",
+    tech: "React"
+  },
+  {
+    id: 5,
+    title: "TypeScript",
+    description: "Add type safety to your JavaScript",
+    icon: "📘",
+    gradientFrom: "from-blue-700",
+    gradientTo: "to-blue-500",
+    points: 400,
+    level: "Intermediate",
+    totalLessons: 18,
+    completedLessons: 0,
+    status: "not-started",
+    tech: "TypeScript"
+  },
+  {
+    id: 6,
+    title: "Node.js Backend",
+    description: "Build server-side applications",
+    icon: "🟢",
+    gradientFrom: "from-green-600",
+    gradientTo: "to-emerald-500",
+    points: 450,
+    level: "Intermediate",
+    totalLessons: 22,
+    completedLessons: 0,
+    status: "locked",
+    tech: "Node.js"
+  }
+];
+
+// بيانات شريط التقدم العلوي
+const DUMMY_PROGRESS = {
+  totalCompleted: 25, // (12 + 8 + 5)
+  totalLessons: 182,  // مجموع كل الدروس
+};
+
 
 export default function Home() {
+  // 2. حالة الفلترة (التي سنربطها بالهيدر لاحقاً)
+  const [selectedTech, setSelectedTech] = useState('All'); // 'All' كقيمة افتراضية
+
+  // 3. فلترة الكورسات بناءً على الحالة
+  const filteredCourses = DUMMY_COURSES.filter(course => {
+    if (selectedTech === 'All') return true; // أظهر الكل
+    return course.tech === selectedTech;
+  });
+
   return (
-    <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex min-h-screen w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.js file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
-        </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
+    < >
+      <Header 
+        selectedTech={selectedTech} 
+        onTechSelect={setSelectedTech} 
+      />
+      <main className="flex-grow w-full">
+        <div className="p-8 max-w-7xl mx-auto">
+        {/* قسم التقدم العام */}
+        <section className="mb-12">
+          <h2 className="text-3xl font-bold mb-4">Learning Paths</h2>
+          <p className="text-neutral-400 mb-6">Master programming with structured courses</p>
+          <ProgressSummary 
+            totalCompleted={DUMMY_PROGRESS.totalCompleted}
+            totalLessons={DUMMY_PROGRESS.totalLessons}
+          />
+        </section>
+
+        {/* قسم الكورسات (يستخدم Grid) */}
+        <section>
+          {/* Grid:
+            - grid-cols-1: عمود واحد في الموبايل
+            - md:grid-cols-2: عمودين في الشاشات المتوسطة
+            - lg:grid-cols-3: 3 أعمدة في الشاشات الكبيرة
+          */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {/* 5. استخدام .map لعرض الكورسات المفلترة */}
+            {filteredCourses.map(course => (
+              <CourseCard key={course.id} course={course} />
+            ))}
+          </div>
+        </section>
         </div>
       </main>
-    </div>
+      <Footer/>
+      </>
   );
 }
