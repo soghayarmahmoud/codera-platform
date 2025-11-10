@@ -1,5 +1,5 @@
 // استخدم "use client" إذا كنت ستضيف أي تفاعل داخل الكارت
-// "use client"; 
+"use client"; 
 
 import React from 'react';
 // سنحتاج مكتبة أيقونات، سأستخدم أسماء من react-icons كأمثلة

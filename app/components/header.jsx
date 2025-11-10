@@ -1,22 +1,24 @@
 "use client";
 import React, { useState } from 'react';
+import { DiHtml5, DiCss3, DiJavascript1, DiReact, DiNodejsSmall, DiPython, DiJava, DiDatabase, DiAngularSimple, DiRuby, DiPhp } from 'react-icons/di';
+import { SiTypescript, SiCplusplus, SiVuedotjs } from 'react-icons/si';
 
 // قائمة اللغات، يمكنك استبدال الأيقونات النصية بأيقونات SVG أو react-icons
 const technologies = [
-  { name: 'HTML', icon: '📄' },
-  { name: 'CSS', icon: '🎨' },
-  { name: 'JavaScript', icon: '⚡' },
-  { name: 'React', icon: '⚛️' },
-  { name: 'TypeScript', icon: '📘' },
-  { name: 'Node.js', icon: '🟢' },
-  { name: 'Python', icon: '🐍' },
-  { name: 'Java', icon: '☕' },
-  { name: 'C++', icon: '++' },
-  { name: 'SQL', icon: '💾' },
-  { name: 'Angular', icon: '🅰️' },
-  { name: 'Vue.js', icon: '💚' },
-  { name: 'PHP', icon: '🐘' },
-  { name: 'Ruby', icon: '💎' },
+  { name: 'HTML', Icon: DiHtml5 },
+  { name: 'CSS', Icon: DiCss3 },
+  { name: 'JavaScript', Icon: DiJavascript1 },
+  { name: 'React', Icon: DiReact },
+  { name: 'TypeScript', Icon: SiTypescript },
+  { name: 'Node.js', Icon: DiNodejsSmall },
+  { name: 'Python', Icon: DiPython },
+  { name: 'Java', Icon: DiJava },
+  { name: 'C++', Icon: SiCplusplus },
+  { name: 'SQL', Icon: DiDatabase },
+  { name: 'Angular', Icon: DiAngularSimple },
+  { name: 'Vue.js', Icon: SiVuedotjs },
+  { name: 'PHP', Icon: DiPhp },
+  { name: 'Ruby', Icon: DiRuby },
 ];
 
 /**
@@ -41,6 +43,16 @@ const technologies = [
 
 function Header({ selectedTech, onTechSelect }) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+  // Handle clicking on a technology filter.
+  // If the same filter is clicked again, it will show all courses.
+  const handleTechClick = (techName) => {
+    if (selectedTech === techName) {
+      onTechSelect('All');
+    } else {
+      onTechSelect(techName);
+    }
+  };
 
   return (
     <header className="bg-zinc-900 text-gray-300 shadow-lg">
@@ -138,6 +150,7 @@ function Header({ selectedTech, onTechSelect }) {
       )}
 
       {/* 2. شريط فلترة اللغات (Scrollable) */}
+      {/* The 'relative' class is added to the container to position the fading pseudo-elements */}
       <div className="bg-zinc-800/50 p-3">
         {/* هذا هو الجزء الأهم لجعل الشريط قابلاً للتمرير:
           - 'flex': يجعل العناصر أفقية
@@ -148,10 +161,25 @@ function Header({ selectedTech, onTechSelect }) {
             هذه الكلاسات لتنسيق شريط التمرير (تحتاج إلى `tailwind-scrollbar`)
         */}
         <div className="flex overflow-x-auto gap-3 pb-2 scrollbar-thin scrollbar-thumb-zinc-600 scrollbar-track-zinc-800/50">
+          {/* "All" button to clear the filter */}
+          <button
+            onClick={() => onTechSelect('All')}
+            className={`
+              flex items-center gap-2 py-1.5 px-4 rounded-md border 
+              transition-all duration-200
+              whitespace-nowrap
+              ${selectedTech === 'All' 
+                ? 'bg-blue-500 text-white border-blue-500 font-semibold shadow-md shadow-blue-500/20' 
+                : 'bg-zinc-700 text-gray-300 border-zinc-600 hover:bg-zinc-600 hover:border-zinc-500'
+              }
+            `}
+          >
+            All
+          </button>
           {technologies.map((tech) => (
             <button
               key={tech.name}
-              onClick={() => onTechSelect(tech.name)}
+              onClick={() => handleTechClick(tech.name)}
               className={`
                 flex items-center gap-2 py-1.5 px-3 rounded-md border 
                 transition-all duration-200
@@ -162,7 +190,7 @@ function Header({ selectedTech, onTechSelect }) {
                 }
               `}
             >
-              <span>{tech.icon}</span>
+              <tech.Icon className="w-5 h-5" />
               <span>{tech.name}</span>
             </button>
           ))}
