@@ -2,6 +2,7 @@
 "use client";
 import React, { useState } from 'react';
 
+import Footer from "./components/Footer.jsx";
 import Header from "./components/header.jsx";
 import CourseCard from "./components/CourseCard.jsx";
 import ProgressSummary from "./components/ProgressSummary.jsx";
@@ -113,17 +114,13 @@ export default function Home() {
   });
 
   return (
-    <main className="bg-neutral-900 min-h-screen text-white">
-      {/* تمرير الحالة والدالة إلى الهيدر
-        هكذا يتم ربط الهيدر بالصفحة
-      */}
+    < >
       <Header 
         selectedTech={selectedTech} 
         onTechSelect={setSelectedTech} 
       />
-
-      {/* 4. عرض المحتوى */}
-      <div className="p-8 max-w-7xl mx-auto">
+      <main className="flex-grow w-full">
+        <div className="p-8 max-w-7xl mx-auto">
         {/* قسم التقدم العام */}
         <section className="mb-12">
           <h2 className="text-3xl font-bold mb-4">Learning Paths</h2>
@@ -148,7 +145,9 @@ export default function Home() {
             ))}
           </div>
         </section>
-      </div>
-    </main>
+        </div>
+      </main>
+      <Footer/>
+      </>
   );
 }
