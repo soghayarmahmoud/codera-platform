@@ -41,7 +41,7 @@ const technologies = [
  * ليعمل الكود مباشرة.
  */
 
-function Header({ selectedTech, onTechSelect }) {
+function Header({ selectedTech, onTechSelect, searchTerm, onSearchChange }) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   // Handle clicking on a technology filter.
@@ -81,6 +81,8 @@ function Header({ selectedTech, onTechSelect }) {
             <input 
               type="text" 
               placeholder="Search courses, problems..."
+              value={searchTerm}
+              onChange={(e) => onSearchChange(e.target.value)}
               className="bg-zinc-800 border border-zinc-700 rounded-md py-2 pl-10 pr-4 w-72 text-gray-200 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all"
             />
           </div>
@@ -142,6 +144,8 @@ function Header({ selectedTech, onTechSelect }) {
               <input 
                 type="text" 
                 placeholder="Search courses..."
+                value={searchTerm}
+                onChange={(e) => onSearchChange(e.target.value)}
                 className="bg-zinc-800 border border-zinc-700 rounded-md py-2 pl-10 pr-4 w-full text-gray-200 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all"
               />
             </div>

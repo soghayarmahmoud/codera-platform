@@ -106,11 +106,20 @@ const DUMMY_PROGRESS = {
 export default function Home() {
   // 2. حالة الفلترة (التي سنربطها بالهيدر لاحقاً)
   const [selectedTech, setSelectedTech] = useState('All'); // 'All' كقيمة افتراضية
+  const [searchTerm, setSearchTerm] = useState(''); // حالة جديدة لمصطلح البحث
 
   // 3. فلترة الكورسات بناءً على الحالة
   const filteredCourses = DUMMY_COURSES.filter(course => {
-    if (selectedTech === 'All') return true; // أظهر الكل
-    return course.tech === selectedTech;
+    // التحقق من تطابق التكنولوجيا
+    const techMatch = selectedTech === 'All' || course.tech === selectedTech;
+
+    // التحقق من تطابق مصطلح البحث (غير حساس لحالة الأحرف)
+    const searchMatch = searchTerm.trim() === '' || 
+      course.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      course.description.toLowerCase().includes(searchTerm.toLowerCase());
+
+    // يجب أن يتطابق كلا الشرطين
+    return techMatch && searchMatch;
   });
 
   return (
@@ -118,6 +127,8 @@ export default function Home() {
       <Header 
         selectedTech={selectedTech} 
         onTechSelect={setSelectedTech} 
+        searchTerm={searchTerm}
+        onSearchChange={setSearchTerm}
       />
       <main className="flex-grow w-full">
         <div className="p-8 max-w-7xl mx-auto">
