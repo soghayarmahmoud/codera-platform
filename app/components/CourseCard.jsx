@@ -1,12 +1,10 @@
 // استخدم "use client" إذا كنت ستضيف أي تفاعل داخل الكارت
 "use client"; 
-
 import React from 'react';
-// سنحتاج مكتبة أيقونات، سأستخدم أسماء من react-icons كأمثلة
-// (npm install react-icons)
+import Link from "next/link";
+
 import { FaClock, FaCheckCircle, FaLock, FaPlay, FaSync } from 'react-icons/fa';
 
-// 1. دالة لتحديد لون "المستوى" (Beginner, Intermediate...)
 const getLevelStyles = (level) => {
   switch (level.toLowerCase()) {
     case 'beginner':
@@ -39,8 +37,10 @@ export default function CourseCard({ course }) {
   // حساب نسبة التقدم
   const progressPercent = (completedLessons / totalLessons) * 100;
 
-  // 3. دالة لتحديد الزر المناسب
-  const renderButton = () => {
+// import Link from "next/link";
+
+    // 3. دالة لتحديد الزر المناسب
+    const renderButton = () => {
     switch (status) {
       case 'locked':
         return (
@@ -58,17 +58,21 @@ export default function CourseCard({ course }) {
         );
       case 'in-progress':
         return (
-          <button className="flex items-center justify-center gap-2 w-full py-3 bg-green-600 hover:bg-green-700 text-white rounded-lg font-semibold transition-colors">
-            <FaPlay />
-            Continue
-          </button>
+          <Link href={`/courses/${course.slug}/learn`} className="block">
+            <button className="flex items-center justify-center gap-2 w-full py-3 bg-green-600 hover:bg-green-700 text-white rounded-lg font-semibold transition-colors">
+              <FaPlay />
+              Continue
+            </button>
+          </Link>
         );
       default: // 'not-started'
         return (
-          <button className="flex items-center justify-center gap-2 w-full py-3 bg-green-600 hover:bg-green-700 text-white rounded-lg font-semibold transition-colors">
-            <FaPlay />
-            Start Course
-          </button>
+          <Link href={`/courses/${course.slug}/learn`} className="block">
+            <button className="flex items-center justify-center gap-2 w-full py-3 bg-green-600 hover:bg-green-700 text-white rounded-lg font-semibold transition-colors">
+              <FaPlay />
+              Start Course
+            </button>
+          </Link>
         );
     }
   };

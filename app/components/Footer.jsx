@@ -1,17 +1,18 @@
 
 import React from 'react';
+import Link from 'next/link';
 
 const SocialIcon = ({ href, children }) => (
-  <a href={href} className="text-gray-400 hover:text-white transition-colors">
+  <Link href={href} className="text-gray-400 hover:text-white transition-colors">
     {children}
-  </a>
+  </Link>
 );
 
 const FooterLink = ({ href, children }) => (
   <li>
-    <a href={href} className="text-gray-400 hover:text-white transition-colors text-sm">
+    <Link href={href} className="text-gray-400 hover:text-white transition-colors text-sm">
       {children}
-    </a>
+    </Link>
   </li>
 );
 
@@ -21,11 +22,11 @@ function Footer() {
       <div className="max-w-7xl mx-auto px-8 py-12">
         <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-8">
           {/* Logo and Social */}
-          <div className="col-span-2 lg:col-span-2">
-            <div className="flex items-center gap-2 text-2xl font-bold text-white mb-4">
-              <span role="img" aria-label="logo">💠</span>
-              <span>Codera</span>
-            </div>
+          <div className="col-span-2 lg:col-span-2 pr-8">
+            <Link href="/" className="flex items-center gap-3 mb-4">
+              <img src="/images/logo.png" alt="Codera Logo" className="h-9 w-auto" />
+              <span className="text-2xl font-bold text-white">Codera</span>
+            </Link>
             <p className="text-sm text-gray-400 max-w-xs mb-6">
               The interactive platform to learn programming by doing.
             </p>
@@ -49,16 +50,16 @@ function Footer() {
               <FooterLink href="#">Learn</FooterLink>
               <FooterLink href="#">Problems</FooterLink>
               <FooterLink href="#">Projects</FooterLink>
-              <FooterLink href="#">Editor</FooterLink>
+              <FooterLink href="/editor">Editor</FooterLink>
             </ul>
           </div>
 
           <div>
             <h3 className="font-semibold text-white mb-4">Resources</h3>
             <ul className="space-y-3">
-              <FooterLink href="#">Blog</FooterLink>
-              <FooterLink href="#">Docs</FooterLink>
-              <FooterLink href="#">Support</FooterLink>
+              <FooterLink href="/blog">Blog</FooterLink>
+                <FooterLink href="/docs">Docs</FooterLink>
+                <FooterLink href="/support">Support</FooterLink>
             </ul>
           </div>
 
@@ -78,8 +79,8 @@ function Footer() {
             &copy; {new Date().getFullYear()} Codera. All rights reserved.
           </p>
           <div className="flex items-center gap-6 text-sm text-gray-500">
-            <a href="#" className="hover:text-white transition-colors">Terms of Service</a>
-            <a href="#" className="hover:text-white transition-colors">Privacy Policy</a>
+            <Link href="#" className="hover:text-white transition-colors">Terms of Service</Link>
+            <Link href="#" className="hover:text-white transition-colors">Privacy Policy</Link>
           </div>
         </div>
       </div>
