@@ -1,5 +1,6 @@
 "use client";
 import React, { useState } from 'react';
+import { usePathname } from 'next/navigation';
 import { useAuth } from './AuthProvider';
 import Link from 'next/link';
 import { DiHtml5, DiCss3, DiJavascript1, DiReact, DiNodejsSmall, DiPython, DiJava, DiDatabase, DiAngularSimple, DiRuby, DiPhp } from 'react-icons/di';
@@ -27,6 +28,14 @@ import { useFilter } from './FilterProvider';
 function Header({ selectedTech: _selectedTechProp = 'All', onTechSelect: _onTechSelectProp = () => {}, searchTerm: _searchProp, onSearchChange: _onSearchChangeProp }) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   // prefer context values when available
+    const pathname = typeof window !== 'undefined' ? window.location.pathname : '';
+    // Use Next.js hook for pathname if available
+    let currentPath = '';
+    try {
+      currentPath = usePathname();
+    } catch (e) {
+      currentPath = pathname;
+    }
   let selectedTech, onTechSelect, searchTerm, onSearchChange;
   try {
     const filter = useFilter();
@@ -86,13 +95,13 @@ function Header({ selectedTech: _selectedTechProp = 'All', onTechSelect: _onTech
         </div>
 
         {/* Nav Middle: Links */}
-          <div className="hidden md:flex items-center gap-8">
-          <Link href="/" className="text-white font-semibold">Learn</Link>
-          <Link href="/editor" className="text-gray-400 hover:text-white transition-colors">Editor</Link>
-          <Link href="#" className="text-gray-400 hover:text-white transition-colors">Problems</Link>
-          <Link href="#" className="text-gray-400 hover:text-white transition-colors">Projects</Link>
-          <Link href="/blog" className="text-gray-400 hover:text-white transition-colors">Blog</Link>
-          <Link href="/support" className="text-gray-400 hover:text-white transition-colors">Support</Link>
+        <div className="hidden md:flex items-center gap-8">
+          <Link href="/" className={currentPath === '/' ? "text-white font-semibold" : "text-gray-400 hover:text-white transition-colors"}>Learn</Link>
+          <Link href="/editor" className={currentPath.startsWith('/editor') ? "text-white font-semibold" : "text-gray-400 hover:text-white transition-colors"}>Editor</Link>
+          <Link href="/problems" className={currentPath.startsWith('/problems') ? "text-white font-semibold" : "text-gray-400 hover:text-white transition-colors"}>Problems</Link>
+          <Link href="/projects" className={currentPath.startsWith('/projects') ? "text-white font-semibold" : "text-gray-400 hover:text-white transition-colors"}>Projects</Link>
+          <Link href="/blog" className={currentPath.startsWith('/blog') ? "text-white font-semibold" : "text-gray-400 hover:text-white transition-colors"}>Blog</Link>
+          <Link href="/support" className={currentPath.startsWith('/support') ? "text-white font-semibold" : "text-gray-400 hover:text-white transition-colors"}>Support</Link>
         </div>
 
         {/* Nav Right: Points & Profile */}
@@ -152,8 +161,10 @@ function Header({ selectedTech: _selectedTechProp = 'All', onTechSelect: _onTech
         </div>
       )}
 
-      <div className="bg-zinc-800/50 p-3">
-        {onTechSelect && onTechSelect !== Header.defaultProps.onTechSelect && <div className="flex overflow-x-auto gap-3 pb-2 scrollbar-thin scrollbar-thumb-blue-600 hover:scrollbar-thumb-blue-500 scrollbar-track-zinc-800">
+      {/* Show tech tags only on home page */}
+      {currentPath === '/' && (
+        <div className="bg-zinc-800/50 p-3">
+          {onTechSelect && onTechSelect !== Header.defaultProps.onTechSelect && <div className="flex overflow-x-auto gap-3 pb-2 scrollbar-thin scrollbar-thumb-blue-600 hover:scrollbar-thumb-blue-500 scrollbar-track-zinc-800">
           {/* "All" button to clear the filter */}
           <button
             onClick={() => onTechSelect('All')}
@@ -187,8 +198,9 @@ function Header({ selectedTech: _selectedTechProp = 'All', onTechSelect: _onTech
               <span>{tech.name}</span>
             </button>
           ))}
-        </div>}
-      </div>
+          </div>}
+        </div>
+      )}
     </header>
   );
 }
