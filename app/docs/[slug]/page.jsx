@@ -1,30 +1,34 @@
 "use client";
 
-import React, { use } from 'react';
+import React from 'react';
 import Link from 'next/link';
 import { FaArrowLeft, FaBook } from 'react-icons/fa';
 import { docsData } from '../../data/docsData';
 
+function DocNotFound() {
+  return (
+    <div className="bg-zinc-900 min-h-screen text-gray-300 flex items-center justify-center">
+      <div className="text-center">
+        <h1 className="text-3xl font-bold text-white mb-4">Documentation Not Found</h1>
+        <p className="text-gray-400 mb-6">The documentation page you're looking for doesn't exist.</p>
+        <Link
+          href="/docs"
+          className="inline-flex items-center gap-2 px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors"
+        >
+          <FaArrowLeft className="h-4 w-4" />
+          Back to Documentation
+        </Link>
+      </div>
+    </div>
+  );
+}
+
 export default function DocDetailPage({ params }) {
-  const { slug } = use(params);
+  const { slug } = params;
   const doc = docsData.find(item => item.slug === slug);
 
   if (!doc) {
-    return (
-      <div className="bg-zinc-900 min-h-screen text-gray-300 flex items-center justify-center">
-        <div className="text-center">
-          <h1 className="text-3xl font-bold text-white mb-4">Documentation Not Found</h1>
-          <p className="text-gray-400 mb-6">The documentation page you're looking for doesn't exist.</p>
-          <Link
-            href="/docs"
-            className="inline-flex items-center gap-2 px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors"
-          >
-            <FaArrowLeft className="h-4 w-4" />
-            Back to Documentation
-          </Link>
-        </div>
-      </div>
-    );
+    return <DocNotFound />;
   }
 
   // Get related docs from the same category

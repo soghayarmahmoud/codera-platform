@@ -60,6 +60,7 @@ function Footer() {
               <FooterLink href="/blog">Blog</FooterLink>
                 <FooterLink href="/docs">Docs</FooterLink>
                 <FooterLink href="/support">Support</FooterLink>
+                <FooterLink href="/roadmap">Roadmaps</FooterLink>
             </ul>
           </div>
 
