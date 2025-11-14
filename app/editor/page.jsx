@@ -5,7 +5,6 @@ import Editor from '@monaco-editor/react';
 import { FaPlay, FaHtml5, FaCss3Alt, FaJs, FaPython } from 'react-icons/fa';
 
 
-greet("Codera User")
 const languageDefaults = {
   html: `<!doctype html>\n<html>\n  <head>\n    <meta charset="utf-8">\n    <meta name="viewport" content="width=device-width,initial-scale=1">\n    <title>Codera</title>\n    <style>body { font-family: sans-serif; background-color: #111; color: #eee; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; } h1 { color: #3b82f6; }</style>\n  </head>\n  <body>\n    <h1>Hello from Codera Editor!</h1>\n  </body>\n</html>`,
   css: `body {\n  background-color: #111;\n  color: #eee;\n  font-family: sans-serif;\n}\n\nh1 {\n  color: #3b82f6;\n  text-align: center;\n}`,

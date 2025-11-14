@@ -1,6 +1,7 @@
 "use client";
 
 import React from 'react';
+import { motion } from 'framer-motion';
 import Link from 'next/link';
 import { FaArrowLeft, FaBook } from 'react-icons/fa';
 import { docsData } from '../../data/docsData';
@@ -36,10 +37,23 @@ export default function DocDetailPage({ params }) {
     item => item.category === doc.category && item.id !== doc.id
   ).slice(0, 3);
 
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: { staggerChildren: 0.1, delayChildren: 0.2 },
+    },
+  };
+
+  const itemVariants = {
+    hidden: { y: 20, opacity: 0 },
+    visible: { y: 0, opacity: 1, transition: { type: 'spring', stiffness: 100 } },
+  };
+
   return (
-    <div className="bg-zinc-900 min-h-screen text-gray-300">
+    <motion.div className="min-h-screen" variants={containerVariants} initial="hidden" animate="visible">
       {/* Header */}
-      <div className="bg-gradient-to-br from-blue-600 via-zinc-900 to-zinc-900 py-12">
+      <motion.div variants={itemVariants} className="bg-gradient-to-br from-blue-600 via-zinc-900 to-zinc-900 py-12">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <Link
             href="/docs"
@@ -63,10 +77,10 @@ export default function DocDetailPage({ params }) {
             {doc.category}
           </span>
         </div>
-      </div>
+      </motion.div>
 
       {/* Content Container */}
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <motion.div variants={itemVariants} className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         {/* Main Content */}
         <div className="bg-zinc-800 rounded-lg border border-zinc-700 p-8 md:p-12 mb-12">
           <div
@@ -133,28 +147,34 @@ export default function DocDetailPage({ params }) {
 
         {/* Related Documentation */}
         {relatedDocs.length > 0 && (
-          <div>
+          <motion.div variants={itemVariants}>
             <h2 className="text-2xl font-bold text-white mb-6">Related Documentation</h2>
             <div className="grid md:grid-cols-3 gap-6">
               {relatedDocs.map((relatedDoc) => (
-                <Link
+                <motion.div
                   key={relatedDoc.id}
-                  href={`/docs/${relatedDoc.slug}`}
-                  className="bg-zinc-800 p-6 rounded-lg border border-zinc-700 hover:border-blue-500 transition-all hover:shadow-lg hover:shadow-blue-500/20"
+                  variants={itemVariants}
+                  whileHover={{ y: -5, scale: 1.03 }}
+                  transition={{ type: 'spring', stiffness: 300 }}
                 >
-                  <div className="h-8 w-8 bg-blue-500/20 rounded-lg flex items-center justify-center mb-3">
-                    <FaBook className="h-4 w-4 text-blue-400" />
-                  </div>
-                  <h3 className="text-lg font-semibold text-white mb-2 hover:text-blue-400 transition-colors">
-                    {relatedDoc.title}
-                  </h3>
-                  <p className="text-gray-400 text-sm">{relatedDoc.excerpt}</p>
-                </Link>
+                  <Link
+                    href={`/docs/${relatedDoc.slug}`}
+                    className="block bg-zinc-800 p-6 rounded-lg border border-zinc-700 hover:border-blue-500 transition-colors duration-300 h-full"
+                  >
+                    <div className="h-8 w-8 bg-blue-500/20 rounded-lg flex items-center justify-center mb-3">
+                      <FaBook className="h-4 w-4 text-blue-400" />
+                    </div>
+                    <h3 className="text-lg font-semibold text-white mb-2">
+                      {relatedDoc.title}
+                    </h3>
+                    <p className="text-gray-400 text-sm">{relatedDoc.excerpt}</p>
+                  </Link>
+                </motion.div>
               ))}
             </div>
-          </div>
+          </motion.div>
         )}
-      </div>
-    </div>
+      </motion.div>
+    </motion.div>
   );
 }

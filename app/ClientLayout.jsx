@@ -2,7 +2,6 @@
 
 import { usePathname } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
-import { useEffect, useState } from 'react';
 import Header from './components/header';
 import Footer from './components/Footer';
 import AuthProvider from './components/AuthProvider';
@@ -28,13 +27,13 @@ const pageVariants = {
   }
 };
 
-export default function ClientLayout({ children }) {
+export default function ClientLayout({ children, languages }) {
   const pathname = usePathname();
 
   return (
-    <AuthProvider>
+    <AuthProvider><div className="min-h-screen flex flex-col">
       <FilterProvider>
-        <Header />
+        <Header languages={languages} />
 
         <AnimatePresence mode="wait" initial={false}>
           <motion.main
@@ -43,7 +42,7 @@ export default function ClientLayout({ children }) {
             animate="enter"
             exit="exit"
             variants={pageVariants}
-            className="min-h-[calc(100vh-4rem)]"
+            className="flex-1"
           >
             <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-8">
               {children}
@@ -51,7 +50,7 @@ export default function ClientLayout({ children }) {
           </motion.main>
         </AnimatePresence>
 
-        <Footer />
+        <Footer languages={languages} />
 
         <button
           onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
@@ -61,6 +60,6 @@ export default function ClientLayout({ children }) {
           <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 10l7-7m0 0l7 7m-7-7v18" /></svg>
         </button>
       </FilterProvider>
-    </AuthProvider>
+    </div></AuthProvider>
   );
 }
