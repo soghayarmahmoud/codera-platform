@@ -22,8 +22,25 @@ const technologies = [
   { name: 'Ruby', Icon: DiRuby },
 ];
 
-function Header({ selectedTech = 'All', onTechSelect = () => {}, searchTerm, onSearchChange }) {
+import { useFilter } from './FilterProvider';
+
+function Header({ selectedTech: _selectedTechProp = 'All', onTechSelect: _onTechSelectProp = () => {}, searchTerm: _searchProp, onSearchChange: _onSearchChangeProp }) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  // prefer context values when available
+  let selectedTech, onTechSelect, searchTerm, onSearchChange;
+  try {
+    const filter = useFilter();
+    selectedTech = filter.selectedTech;
+    onTechSelect = (tech) => filter.setSelectedTech(tech);
+    searchTerm = filter.searchTerm;
+    onSearchChange = (v) => filter.setSearchTerm(v);
+  } catch (e) {
+    // fallback to props
+    selectedTech = _selectedTechProp;
+    onTechSelect = _onTechSelectProp;
+    searchTerm = _searchProp;
+    onSearchChange = _onSearchChangeProp;
+  }
 
   // Handle clicking on a technology filter.
   // If the same filter is clicked again, it will show all courses.
@@ -62,14 +79,14 @@ function Header({ selectedTech = 'All', onTechSelect = () => {}, searchTerm, onS
               type="text" 
               placeholder="Search courses, problems..."
               value={searchTerm}
-              onChange={(e) => onSearchChange(e.target.value)}
+              onChange={(e) => onSearchChange && onSearchChange(e.target.value)}
               className="bg-zinc-800 border border-zinc-700 rounded-md py-2 pl-10 pr-4 w-72 text-gray-200 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all"
             />
           </div>
         </div>
 
         {/* Nav Middle: Links */}
-        <div className="hidden md:flex items-center gap-8">
+          <div className="hidden md:flex items-center gap-8">
           <Link href="/" className="text-white font-semibold">Learn</Link>
           <Link href="/editor" className="text-gray-400 hover:text-white transition-colors">Editor</Link>
           <Link href="#" className="text-gray-400 hover:text-white transition-colors">Problems</Link>
@@ -81,9 +98,6 @@ function Header({ selectedTech = 'All', onTechSelect = () => {}, searchTerm, onS
         {/* Nav Right: Points & Profile */}
         <div className="flex items-center gap-4 ">
           {/* auth-aware area */}
-          {(() => {
-            // useAuth is a hook; call it here
-          })()}
           {/* Auth area component */}
           <AuthArea />
           {/* Hamburger Menu Button */}

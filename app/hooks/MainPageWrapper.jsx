@@ -4,9 +4,10 @@ import Header from "../components/header.jsx";
 import CourseCard from "../components/CourseCard.jsx";
 import ProgressSummary from "../components/ProgressSummary.jsx";
 
+import { useFilter } from '../components/FilterProvider';
+
 export default function MainPageWrapper({ courses, progress }) {
-  const [selectedTech, setSelectedTech] = useState('All');
-  const [searchTerm, setSearchTerm] = useState('');
+  const { selectedTech, searchTerm } = useFilter();
 
   const filteredCourses = courses.filter(course => {
     const techMatch = selectedTech === 'All' || course.tech === selectedTech;

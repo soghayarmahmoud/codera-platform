@@ -1,14 +1,13 @@
 "use client";
 
-import React from 'react';
+import React, { use } from 'react';
 import Link from 'next/link';
 import { FaArrowLeft, FaBook } from 'react-icons/fa';
-import { docsData } from './data/docsData.js';
-import { useParams } from 'next/navigation';
+import { docsData } from '../../data/docsData';
 
-export default function DocDetailPage() {
-  const params = useParams();
-  const doc = docsData.find(item => item.slug === params.slug);
+export default function DocDetailPage({ params }) {
+  const { slug } = use(params);
+  const doc = docsData.find(item => item.slug === slug);
 
   if (!doc) {
     return (

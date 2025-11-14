@@ -1,12 +1,12 @@
 "use client";
 
-import React, { useState } from 'react';
+import React, { useState, use } from 'react';
 import { useRouter } from 'next/navigation';
 import { getCourseBySlug } from '../../data/coursesData';
 import { useAuth } from '../../components/AuthProvider';
 
 export default function CoursePage({ params }) {
-  const { slug } = params;
+  const { slug } = use(params);
   const course = getCourseBySlug(slug);
   const { user, updateUser } = useAuth();
   const router = useRouter();

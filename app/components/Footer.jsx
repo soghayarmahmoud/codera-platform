@@ -66,8 +66,8 @@ function Footer() {
           <div>
             <h3 className="font-semibold text-white mb-4">Company</h3>
             <ul className="space-y-3">
-              <FooterLink href="#">About Us</FooterLink>
-              <FooterLink href="#">Careers</FooterLink>
+              <FooterLink href="/about">About Us</FooterLink>
+              <FooterLink href="/career">Careers</FooterLink>
               <FooterLink href="#">Contact</FooterLink>
             </ul>
           </div>

@@ -1,11 +1,11 @@
 "use client";
 
-import React, { useState } from 'react';
+import React, { useState, use } from 'react';
 import { useRouter } from 'next/navigation';
 import { getCourseBySlug, LESSONS } from '../../../data/coursesData';
 
 export default function LearnPage({ params }) {
-  const { slug } = params;
+  const { slug } = use(params);
   const course = getCourseBySlug(slug);
   const lessons = LESSONS[slug] || [];
   const [active, setActive] = useState(lessons[0]?.id || null);
