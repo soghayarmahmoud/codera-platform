@@ -36,20 +36,16 @@ function Header({ selectedTech: _selectedTechProp = 'All', onTechSelect: _onTech
     } catch (e) {
       currentPath = pathname;
     }
-  let selectedTech, onTechSelect, searchTerm, onSearchChange;
-  try {
-    const filter = useFilter();
-    selectedTech = filter.selectedTech;
-    onTechSelect = (tech) => filter.setSelectedTech(tech);
-    searchTerm = filter.searchTerm;
-    onSearchChange = (v) => filter.setSearchTerm(v);
-  } catch (e) {
-    // fallback to props
-    selectedTech = _selectedTechProp;
-    onTechSelect = _onTechSelectProp;
-    searchTerm = _searchProp;
-    onSearchChange = _onSearchChangeProp;
-  }
+    let filterContext;
+    try {
+      filterContext = useFilter();
+    } catch (e) {
+      filterContext = undefined;
+    }
+    const selectedTech = filterContext ? filterContext.selectedTech : _selectedTechProp;
+    const onTechSelect = filterContext ? (tech) => filterContext.setSelectedTech(tech) : _onTechSelectProp;
+    const searchTerm = filterContext ? filterContext.searchTerm : _searchProp;
+    const onSearchChange = filterContext ? (v) => filterContext.setSearchTerm(v) : _onSearchChangeProp;
 
   // Handle clicking on a technology filter.
   // If the same filter is clicked again, it will show all courses.

@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from 'react';
-import { ROADMAP_LIST } from '../../data/roadmaps';
+import { ROADMAP_LIST } from '../data/roadmaps';
 import { FaArrowRight } from 'react-icons/fa';
 
 export default function RoadmapPage() {
